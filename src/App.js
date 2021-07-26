@@ -19,12 +19,12 @@ import './App.css';
     console.log("currentPage" + currentPage);
 
     if(maxNum <= 6){
-      for (let i = 0; i <= maxNum; i++){
+      for (let i = 1; i <= maxNum; i++){
         setNumbers.push(i);
       }
     } else {
       if (currentPage <= 4 ) {
-        for (let i = 0; i <= 5; i++) {
+        for (let i = 1; i <= 5; i++) {
           setNumbers.push(i)
         }
         setNumbers.splice(9,0, "...")
@@ -43,7 +43,7 @@ import './App.css';
             setNumbers.push(currentPage >= maxNum - 3 ?  maxNum - i: maxNum - 3 + i)
           }
         } else {
-          for (let i = 0; i <= 5; i++) {
+          for (let i = 1; i <= 5; i++) {
             setNumbers.push(currentPage < 4 ?  i: currentPage - 3 + i)
           }
         }
@@ -58,19 +58,20 @@ import './App.css';
       }
     }
 
-    if (setNumbers.length > 2) {
-      setNumbers[0] = "PREV"
-      setNumbers.push("NEXT")
-    }
+    // if (setNumbers.length > 2) {
+    //   setNumbers[0] = "PREV"
+    //   setNumbers.push("NEXT")
+    // }
 
     const ref = useRef(null)
 
     function updateCurrentPage (x){
-      if (x.target.value === 'PREV') {
+      console.log(x);
+      if (x === 'PREV') {
         if (currentPage > 1) {
           setCurrentPage(currentPage - 1)
         } 
-      } else if (x.target.value === 'NEXT') {
+      } else if (x === 'NEXT') {
         if (currentPage < maxNum) {
           setCurrentPage(Number(currentPage) + 1)
         }
@@ -91,6 +92,11 @@ import './App.css';
     }
 
     return <div className="paginator-wrap">
+
+      <button key="NEXT" className={toggleActiveStyles("NEXT")} value="NEXT" onClick={(x) => {
+              updateCurrentPage("NEXT");
+            }} >NEXT</button>
+      <div>
         {
           setNumbers.map((x, index) => {
             return <button key={index} ref={ref} className={toggleActiveStyles(x, index)} id={index} value={x} onClick={(x) => {
@@ -98,6 +104,10 @@ import './App.css';
             }} >{x}</button>
           })
         }
+      </div>  
+      <button key="PREV" className={toggleActiveStyles("PREV")} value="PREV" onClick={(x) => {
+              updateCurrentPage("PREV");
+            }}>PREV</button>
     </div>
 }
 
